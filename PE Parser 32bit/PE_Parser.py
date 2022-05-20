@@ -297,7 +297,7 @@ class MZ_header:
             size = mz_param[i][2]
 
             output += '{: <5}{: <30}: {: <10}\n'.format("", name_of_atribute,
-                                                        add_padding_str(elements[name_of_variable], size))
+                                                        add_padding_str(elements[name_of_variable],size))
 
         for i in range(10):
             output += reserved
@@ -344,8 +344,8 @@ class PE_header:
                 header_name = ""
 
             output += '{: <5}{: <30}: {: <10} {}\n'.format("", name_of_atribute,
-                                                           add_padding_str(elements[name_of_variable],
-                                                                           size), header_name)
+                                                           add_padding_str(elements[name_of_variable],size),
+                                                           header_name)
 
         output += "\n"
 
@@ -427,7 +427,7 @@ class Optional_header:
         return output
 
 
-# section header strucuture
+# section header structure
 class Section_header:
     def __init__(self, data, pointer):
         self.name = little_endian(data, pointer, BYTES_8)
@@ -484,8 +484,7 @@ class import_directory:
 
             if should_display_phis_addr:
                 phis_addr = "(phisycal: " + add_padding_str(RVA_to_offset(data, elements[name_of_variable],
-                                                                          num_of_sections, pe_header_offset, opt_header_size),
-                                                            size) + ")"
+                                                                          num_of_sections, pe_header_offset, opt_header_size),size) + ")"
 
                 if name_of_atribute == "Name RVA":
                     phis_addr += " --> " + get_dll_name(self.name_rva, data, num_of_sections, pe_header_offset, opt_header_size)
@@ -578,8 +577,7 @@ class Export_directory:
                                                                           num_of_sections, pe_header_offset, opt_header_size), BYTES_4)
             name_str = get_dll_name(pointer, data, num_of_sections, pe_header_offset, opt_header_size)
             ordinal=little_endian(data, RVA_to_offset(data, self.ordinal_table_rva + BYTES_2 * i,
-                                                                          num_of_sections, pe_header_offset, opt_header_size),
-                                          BYTES_2) + self.ordinal_base
+                                                                          num_of_sections, pe_header_offset, opt_header_size),BYTES_2) + self.ordinal_base
             output_second += '{}API: {: <10} (phisycal: {}) --> Ordinal: {: <6}, Name: {}\n'.format(INDENT * 3 * " ",
                                                                                                     add_padding_str(pointer,BYTES_4),
                                                                                                     add_padding_str(RVA_to_offset(
@@ -588,12 +586,10 @@ class Export_directory:
                                                                                                                     num_of_sections,
                                                                                                                     pe_header_offset,
                                                                                                                     opt_header_size),BYTES_4),
-                                                                                                    add_padding_str(ordinal,BYTES_2),
-                                                                                                    name_str)
+                                                                                                    add_padding_str(ordinal,BYTES_2),name_str)
             output_third += '{}Value: {: <6} (decoded ordinal: {: <6}), Name: {}\n'.format(INDENT * 3 * " ",
                                                                                            add_padding_str(ordinal - self.ordinal_base,BYTES_2),
-                                                                                           add_padding_str(ordinal,BYTES_2),
-                                                                                           name_str)
+                                                                                           add_padding_str(ordinal,BYTES_2),name_str)
             ordinals.append(ordinal)
             names.append((name_str, pointer))
 
